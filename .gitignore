@@ -38,11 +38,10 @@ data/processed/
 !data/sample_input.csv
 
 # Models
-models/
-*.pkl
-*.joblib
-*.h5
-*.onnx
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.onnx
 
 # IDE
 .vscode/
