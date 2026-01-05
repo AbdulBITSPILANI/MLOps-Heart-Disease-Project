@@ -2,6 +2,9 @@
 Unit tests for API endpoints
 """
 
+from src.api.main import app
+from src.utils.preprocessing import HeartDiseasePreprocessor
+from sklearn.linear_model import LogisticRegression
 import pytest
 from fastapi.testclient import TestClient
 from pathlib import Path
@@ -11,10 +14,6 @@ import pandas as pd
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent.parent))
-
-from src.api.main import app
-from src.utils.preprocessing import HeartDiseasePreprocessor
-from sklearn.linear_model import LogisticRegression
 
 
 @pytest.fixture

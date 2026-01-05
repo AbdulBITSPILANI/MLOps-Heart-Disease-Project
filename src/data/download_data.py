@@ -3,10 +3,9 @@ Data Download Script for Heart Disease UCI Dataset
 Downloads the dataset from UCI Machine Learning Repository
 """
 
-import os
+from pathlib import Path
 import urllib.request
 import pandas as pd
-from pathlib import Path
 
 
 def download_heart_disease_dataset():

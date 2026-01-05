@@ -1,16 +1,14 @@
-"""
-Unit tests for preprocessing pipeline
-"""
-
-import pytest
-import pandas as pd
-import numpy as np
-from pathlib import Path
 import sys
+from pathlib import Path
+from src.utils.preprocessing import (
+    HeartDiseasePreprocessor,
+    load_and_preprocess_data,
+)
+import numpy as np
+import pandas as pd
+import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
-
-from src.utils.preprocessing import HeartDiseasePreprocessor, load_and_preprocess_data
 
 
 class TestHeartDiseasePreprocessor:
@@ -21,21 +19,23 @@ class TestHeartDiseasePreprocessor:
         preprocessor = HeartDiseasePreprocessor()
         assert preprocessor.scaler is not None
         assert preprocessor.imputer is not None
-        assert preprocessor.is_fitted == False
+        assert not preprocessor.is_fitted
 
     def test_fit_transform(self):
-        """Test fit_transform method"""
         preprocessor = HeartDiseasePreprocessor()
 
         # Create sample data
         X = pd.DataFrame(
-            {"feature1": [1, 2, 3, 4, 5], "feature2": [10, 20, 30, 40, 50]}
+            {
+                "feature1": [1, 2, 3, 4, 5],
+                "feature2": [10, 20, 30, 40, 50],
+            }
         )
 
         X_transformed = preprocessor.fit_transform(X)
 
         assert X_transformed.shape == X.shape
-        assert preprocessor.is_fitted == True
+        assert preprocessor.is_fitted
         assert preprocessor.feature_names == ["feature1", "feature2"]
 
     def test_transform_without_fit(self):
@@ -51,12 +51,19 @@ class TestHeartDiseasePreprocessor:
         preprocessor = HeartDiseasePreprocessor()
 
         X_train = pd.DataFrame(
-            {"feature1": [1, 2, 3, 4, 5], "feature2": [10, 20, 30, 40, 50]}
+            {
+                "feature1": [1, 2, 3, 4, 5],
+                "feature2": [10, 20, 30, 40, 50],
+            }
         )
 
-        X_test = pd.DataFrame({"feature1": [6, 7], "feature2": [60, 70]})
+        X_test = pd.DataFrame(
+            {
+                "feature1": [6, 7],
+                "feature2": [60, 70],
+            }
+        )
 
-        # Fit on training data
         X_train_transformed = preprocessor.fit_transform(X_train)
 
         # Transform test data
@@ -70,7 +77,10 @@ class TestHeartDiseasePreprocessor:
         preprocessor = HeartDiseasePreprocessor()
 
         X = pd.DataFrame(
-            {"feature1": [1, 2, 3, 4, 5], "feature2": [10, 20, 30, 40, 50]}
+            {
+                "feature1": [1, 2, 3, 4, 5],
+                "feature2": [10, 20, 30, 40, 50],
+            }
         )
 
         preprocessor.fit_transform(X)
@@ -82,11 +92,16 @@ class TestHeartDiseasePreprocessor:
         # Load
         loaded_preprocessor = HeartDiseasePreprocessor.load(filepath)
 
-        assert loaded_preprocessor.is_fitted == True
+        assert loaded_preprocessor.is_fitted
         assert loaded_preprocessor.feature_names == preprocessor.feature_names
-
         # Test that loaded preprocessor works
-        X_test = pd.DataFrame({"feature1": [6, 7], "feature2": [60, 70]})
+        X_test = pd.DataFrame(
+            {
+                "feature1": [6, 7],
+                "feature2": [60, 70],
+            }
+        )
+
         transformed = loaded_preprocessor.transform(X_test)
         assert transformed.shape == (2, 2)
 
@@ -95,7 +110,10 @@ class TestHeartDiseasePreprocessor:
         preprocessor = HeartDiseasePreprocessor()
 
         X = pd.DataFrame(
-            {"feature1": [1, 2, np.nan, 4, 5], "feature2": [10, 20, 30, np.nan, 50]}
+            {
+                "feature1": [1, 2, np.nan, 4, 5],
+                "feature2": [10, 20, 30, np.nan, 50],
+            }
         )
 
         X_transformed = preprocessor.fit_transform(X)

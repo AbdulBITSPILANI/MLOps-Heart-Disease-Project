@@ -3,12 +3,10 @@ FastAPI Application for Heart Disease Prediction API
 Includes monitoring, logging, and metrics endpoints
 """
 
-import os
+from src.utils.preprocessing import HeartDiseasePreprocessor
 import logging
 from pathlib import Path
-from typing import Dict, List
 import joblib
-import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
@@ -18,11 +16,11 @@ from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_
 from starlette.responses import Response
 import time
 
+
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.utils.preprocessing import HeartDiseasePreprocessor
 
 # Configure logging
 logging.basicConfig(
