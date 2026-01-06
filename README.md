@@ -42,33 +42,34 @@ MLOPS_Project/
 
 ### Prerequisites
 
-- Python 3.9+
+- Python 3.9 – 3.11  
 - Docker (for containerization)
 - Kubernetes cluster (for deployment) or Docker Desktop
 - Git
+Note: Python 3.13 is not supported due to incompatibilities with
+ML libraries such as pandas, scikit-learn, and MLflow on Windows.
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd MLOPS_Project
+git clone https://github.com/AbdulBITSPILANI/MLOps-Heart-Disease-Project.git
+cd MLOps-Heart-Disease-Project
 ```
 
-2. Create virtual environment:
-```bash
+2. Create and activate virtual environment:
+**Windows (Command Prompt):**
+```bat
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+venv\Scripts\activate
 
 3. Install dependencies:
 ```bash
-pip install -r requirements.txt
-```
+python -m pip install -r requirements.txt
 
 4. Download the dataset:
 ```bash
-python src/data/download_data.py
+python -m src.data.download_data
 ```
 
 ## Usage
@@ -84,7 +85,7 @@ jupyter notebook notebooks/eda.ipynb
 
 Train models with MLflow tracking:
 ```bash
-python src/models/train.py
+python -m src.models.train
 ```
 
 ### 3. Run API Locally
@@ -119,6 +120,12 @@ Deploy to Kubernetes:
 ```bash
 kubectl apply -f k8s/
 ```
+### 6. Verify Deployment
+kubectl get pods
+kubectl get svc
+
+### 7. Access the service on local Kubernetes (Docker Desktop / Minikube):
+kubectl port-forward service/heart-disease-api-service 8000:80
 
 ## API Endpoints
 
